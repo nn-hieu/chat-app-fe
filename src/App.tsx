@@ -1,15 +1,35 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Home from './pages/Home'
+import { ConfigProvider, message, notification } from 'antd';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import './App.css';
+import { AuthProvider } from './contexts/AuthContext';
+import AppRoute from './routes/AppRoute';
 
-function App() {
+const App: React.FC = () => {
+  message.config({
+    duration: 1.5, 
+  });
+
+  notification.config({
+    duration: 2.5,
+  });
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#1890ff',
+          borderRadius: 8,
+        },
+      }}
+    >
+      <AuthProvider>
+        <BrowserRouter>
+          <AppRoute />
+        </BrowserRouter>
+      </AuthProvider>
+    </ConfigProvider>
+  );
+};
 
-export default App
+export default App;
